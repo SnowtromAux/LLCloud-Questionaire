@@ -4,26 +4,27 @@ import { useNavigate } from "react-router-dom";
 
 function NumberField(props) {
 	const navigate = useNavigate();
-	const { question , options , next_pages } = props;
+	const { question , options } = props;
 	const [value , setValue] = useState("");
 	const [nextPage , setNextPage] = useState("");
 	const [hasBtn , setHasBtn] = useState(false);
 
 	useEffect(() => {
-		for(const index in options){		
-			if(options[index].length === 1 && value === options[index][0]){
+		for(const option of options){		
+			if(option.option.length === 1 && value === option.option[0]){
 				setHasBtn(true);
-				setNextPage(next_pages[index]);
+				setNextPage(option?.page_path || null);
 				return;
-			}else if(options[index].length === 2 &&  value >= options[index][0] && value <= options[index][1]){		
+			}else if(option.option.length === 2 &&  value >= option.option[0] && value <= option.option[1]){		
 				setHasBtn(true);
-				setNextPage(next_pages[index]);
+				setNextPage(option?.page_path || null);
 				return;
 			}
 		}	
-	} , [next_pages , options , value])
+	} , [options , value]);
 
 	const openNextPage = () => {
+		if(nextPage === null)return;
 		navigate(nextPage);
 	}
 

@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 function OptionsField(props) {
 	const navigate = useNavigate();
-	const { question , options , next_pages } = props;
-	const [nextPage , setNextPage] = useState(next_pages[0]);
+	const { question , options } = props;
+	const [nextPage , setNextPage] = useState(options[0]?.page_path || null);
 
 	const handleChange = (event) => {
-	  	setNextPage(next_pages[event.target.value]);
+	  	setNextPage(options[event.target.value]?.page_path);
 	};
 
 	const openNextPage = () => {
@@ -22,7 +22,7 @@ function OptionsField(props) {
 			<label>{question}</label>
 			<select onChange={handleChange}>
 				{options.map((option , index) => (
-					<option key={option} value={index}>{option}</option>
+					<option key={option.option} value={index}>{option.option}</option>
 				))}
 			</select>
 			<button onClick = {() => {openNextPage()}}>Next</button>

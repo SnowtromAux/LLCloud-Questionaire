@@ -5,22 +5,23 @@ import { useNavigate } from "react-router-dom";
 
 function TextField(props) {
 	const navigate = useNavigate();
-	const { question , options , next_pages } = props;
+	const { question , options } = props;
 	const [value , setValue] = useState("");
 	const [nextPage , setNextPage] = useState("");
 	const [hasBtn , setHasBtn] = useState(false);
 
 
 	useEffect(() => {
-		for(const index in options)
-			if(value === options[index]){
+		for(const option of options)
+			if(value === option.option){
 				setHasBtn(true);
-				setNextPage(next_pages[index]);
+				setNextPage(option?.page_path || null);
 				return;
 			}	
-	} , [next_pages , options , value])
+	} , [options , value])
 
 	const openNextPage = () => {
+		if(nextPage === null)return;
 		navigate(nextPage);
 	}
 
